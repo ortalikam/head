@@ -24,7 +24,7 @@ uint64_t TIME_TO_REBUILD_NETWORK=60000; // every 1 minthe minutes
 uint16_t NUMBER_ATTEMPTS_SEND_MESSAGE=2;
 uint64_t TIME_TO_GET_ACK=5000; // wait up to 5 seconds for response
 
-Network::Network(XBee xbeeNet, HardwareSerial* serial) {
+Network::Network(XBee& xbeeNet, HardwareSerial* serial) {
     this->xbeeNet=xbeeNet;
     this->serial=serial;
 }
@@ -67,7 +67,7 @@ void Network::updateSate(){
     //      (*serial).println(serialData[i]);
     //   }
 
-
+    //(*serial).println('0');
     if (serialData[0]=='0'){
         (*serial).println('0');
         _findNeighbors();
@@ -220,17 +220,17 @@ void Network::send(Message* p){
     (*serial).println("send");
 	Payload to_send=*(p->generatePayload());
 
-    // for (int i = 0; i < to_send.length; i++) {
-    //             (*serial).print("res: [");
-    //             (*serial).print(i, DEC);
-    //             (*serial).print("] is ");
-    //             (*serial).print(to_send.buffer[i],HEX);
-    //             (*serial).println("-");
-    // }
+    for (int i = 0; i < to_send.length; i++) {
+                (*serial).print("res: [");
+                (*serial).print(i, DEC);
+                (*serial).print("] is ");
+                (*serial).print(to_send.buffer[i],HEX);
+                (*serial).println("-");
+    }
 
-    if (p->getHeader()->getDirection()==HEADER_DIRECTION_BRODCAST){ //brodcast
-        //(*serial).println("brodcast");
+    if (p->getHeader()->getDirection()==HEADER_DIRECTION_BRODCAST){ //brodcast      
         Tx16Request tx = Tx16Request(0xffff, to_send.buffer, to_send.length);
+        (*serial).println("brodcast");       
 	     xbeeNet.send(tx);
     }
 

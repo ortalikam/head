@@ -10,7 +10,7 @@ public:
     /**
 	 * Default constructor
 	 */
-    Network( XBee xbeeNet,HardwareSerial* serial );
+    Network( XBee& xbeeNet,HardwareSerial* serial );
 
     void  writeToSerial(uint8_t* str);
 
@@ -33,7 +33,7 @@ public:
     
 
 private:
-    XBee xbeeNet;
+    XBee& xbeeNet;
     HardwareSerial* serial;
 
     uint16_t sonArray[SON_SIZE]; // array of suns

@@ -231,7 +231,7 @@ uint8_t  NetworkMsg::getNetworkType(){
 
 
 Payload* NetworkMsg::generatePayload(){
-    Serial1.println("NetworkMsg");
+    //Serial1.println("NetworkMsg");
 
 	Payload* result=new Payload();
 	uint8_t size= this->size;
@@ -241,11 +241,11 @@ Payload* NetworkMsg::generatePayload(){
 	result->buffer[0]=this->header->getDirection();
     result->buffer[1]=this->header->getLayerId();
     result->buffer[2]=(uint8_t)this->header->getMsgId();
-    result->buffer[3]=(uint8_t)(this->header->getMsgId() >> 2);
-    result->buffer[4]=(uint8_t)(this->header->getMsgId() >> 4);
-    result->buffer[5]=(uint8_t)(this->header->getMsgId() >> 8);
-    result->buffer[2]=(uint8_t)this->header->getSenderId();
-    result->buffer[3]=(uint8_t)(this->header->getSenderId() >> 2);
+    result->buffer[3]=(uint8_t)(this->header->getMsgId() >> 4);
+    result->buffer[4]=(uint8_t)(this->header->getMsgId() >> 8);
+    result->buffer[5]=(uint8_t)(this->header->getMsgId() >> 16);
+    result->buffer[6]=(uint8_t)this->header->getSenderId();
+    result->buffer[7]=(uint8_t)(this->header->getSenderId() >> 4);
     result->buffer[8]=this->typeNum;
     result->buffer[9]=this->networkType;
 	return result;
